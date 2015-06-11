@@ -8,10 +8,18 @@
   <button id='btn_play' type="button" onclick="start_simulator()">Play</button>
   <button id='btn_stop' type="button" onclick="stop_simulator()">Stop</button>
   <input  id='chk_ThingsIO' type="checkbox" name="chkThingsIO" value="post"> Post to TheThingsIO
+  <!-- </p> <a href="/v1/simulator/stream" target="_blank">The Sensor Stream</a> -->
+  <h2> Asynchronous Data stream </h2>
+  <textarea id="event" rows="10" cols="200"></textarea>
   <p/>
-  <a href="/v1/simulator/stream" target="_blank">The Sensor Stream</a>
+  <button  type="button" onclick="cleartext()">Clear</button>
 
   <script>
+    function cleartext()
+    {
+      $('#event').prop('innerHTML', '')
+    }
+
     function start_simulator()
     {
       postToTheThingsIO = $('#chk_ThingsIO').prop('checked')
@@ -53,9 +61,16 @@
       });
     }
 
-    $(document).ready(function(){
-      update_buttons();      
+    function new_data_from_sensor(e)
+    {
+     console.log(e.data);
+     $('#event').prop('innerHTML', e.data + '\n' + $('#event').prop('innerHTML'));
+    }
 
+    $(document).ready(function(){
+      update_buttons();
+      var evtSrc = new EventSource("/v1/simulator/stream");
+      evtSrc.onmessage = new_data_from_sensor;
     });
   </script>
 
