@@ -24,9 +24,39 @@ function SketchLine(_numberOfVertices, _easeFactor, _speedFactor, _colors) {
 
 SketchLine.prototype.update = function() {
     this.colorIndex = (this.colorIndex < this.colors.length) ? this.colorIndex + 1 : 0;
+	
+	sensorX += velocityX;
+	sensorY += velocityY;
+	
+	// Make sure it is contained within bounds
+	if (sensorX < 0) {
+		sensorX = canvas.width;
+		releaseLines();
+		addLines();
+	}
+	if (sensorX > canvas.width) {
+		sensorX = 0;
+		releaseLines();
+		addLines();
+	}
+	
+	if (sensorY < 0) {
+		sensorY = canvas.height;
+		releaseLines();
+		addLines();
+	}
+	if (sensorY > canvas.height) {
+		sensorY = 0;
+		releaseLines();
+		addLines();
+	}
+	
+	
+	sensorY = min(max(0, sensorY), canvas.height);
+	
     for (var i = 0; i < this.numberOfVertices; i++) {
-        this.distances[i].x = (i === 0) ? mouseOffsets[offi].mouseX * 0.60 + sensorX - this.curveVertices[0].x : this.curveVertices[i - 1].x - this.curveVertices[i].x;
-        this.distances[i].y = (i === 0) ? mouseOffsets[offi].mouseY * 0.60 + sensorY - this.curveVertices[0].y : this.curveVertices[i - 1].y - this.curveVertices[i].y;
+        this.distances[i].x = (i === 0) ? (mouseOffsets[offi].mouseX + Math.random()*100) + sensorX - this.curveVertices[0].x : this.curveVertices[i - 1].x - this.curveVertices[i].x;
+        this.distances[i].y = (i === 0) ? (mouseOffsets[offi].mouseY + Math.random()*100) + sensorY - this.curveVertices[0].y : this.curveVertices[i - 1].y - this.curveVertices[i].y;
         this.distances[i].mult(this.easeFactor);
         this.endPoints[i].add(this.distances[i]);
         this.curveVertices[i].add(this.endPoints[i]);
@@ -43,7 +73,7 @@ SketchLine.prototype.render = function() {
     for (var i = 0; i < this.numberOfVertices; i++) {
         art.noFill();
         art.strokeWeight(1);
-        var c = this.colors[this.colorIndex]
+        var c = colors[this.colorIndex]
         art.stroke(c[0], c[1], c[2], 30);
         art.curveVertex(this.curveVertices[i].x, this.curveVertices[i].y);
     }

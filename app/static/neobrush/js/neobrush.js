@@ -72,7 +72,7 @@ function choosePreset(id) {
 function setup() {
     background(0);
     updateSource(1);
-    canvas = createCanvas(975, 700);
+    canvas = createCanvas(windowWidth, windowHeight);
     canvas.parent('neobrush');
 	
     art = createGraphics(canvas.width, canvas.height);
@@ -95,76 +95,75 @@ function setup() {
 	console.log('subscribing to the local data stream...');
 	var evtSrc = new EventSource("/v1/simulator/stream");
     evtSrc.onmessage = new_data_from_sensor;
+	
+	sensorX = canvas.width / 2;
+	sensorY = canvas.height / 2;
+	NormalisationFactor = 1.0;
+	AmbientLightCutoff = 100;
+	velocityX = 0;
+	velocityY = 0;
+	speed = 100.0 / 6000
+	
 }
 
-var nmousepressed;
-var sensorX = 0;
-var sensorY = 0;
-var max_sensor6 = 0;
-var max_sensor4 = 0;
-var min_sensor6 = 10000;
-var min_sensor4 = 10000;
+var sensorX;
+var sensorY;
+var velocityX;
+var velocityY;
+var speed;
 
-
-var sensor6_window = []
-var sensor4_window = []
-var sensor4_sum = 0;
-var sensor6_sum = 0;
-var window_size = 60;
-
+var NormalisationFactor;
+var AmbientLightCutoff;
 
 function new_data_from_sensor(e)
 {
-   var jsonData = JSON.parse(e.data);
-   var sensor6 = jsonData.values[0].value.measurments.sensor5;
-   var sensor4 = jsonData.values[0].value.measurments.sensor4;
-   
-  
-   //max_sensor6 = max(sensor6, max_sensor6);
-   //max_sensor4 = max(sensor4, max_sensor4);
-   //min_sensor6 = min(sensor6, min_sensor6);
-   //min_sensor4 = min(sensor4, min_sensor4);
+   var jsonData     = JSON.parse(e.data);
+   var sensorNorth  = jsonData.values[0].value.measurments.sensor5 / NormalisationFactor;
+   var sensorEast   = jsonData.values[0].value.measurments.sensor3 / NormalisationFactor;
+   var sensorWest   = jsonData.values[0].value.measurments.sensor4 / NormalisationFactor;
+   var sensorSouth  = jsonData.values[0].value.measurments.sensor6 / NormalisationFactor;
 
-   sensor4_sum += sensor4;
-   sensor6_sum += sensor6;
-   
-   sensor4_window.push(sensor4);
-   sensor6_window.push(sensor6);
-   
-   if (sensor4_window.length > window_size)
-   {
-		sensor4_sum -= sensor4_window.shift()
-		sensor6_sum -= sensor6_window.shift()
-   }
-   
-   var sensor4_mean = sensor4_sum / sensor4_window.length;
-   var sensor6_mean = sensor6_sum / sensor6_window.length;
-   min_sensor4 = Math.min.apply(null, sensor4_window);
-   min_sensor6 = Math.min.apply(null, sensor6_window);
-   max_sensor4 = Math.max.apply(null, sensor4_window);
-   max_sensor6 = Math.max.apply(null, sensor6_window);
-   
-   console.log('sensor4_mean: ' + sensor4_mean);
-   console.log('sensor6_mean: ' + sensor6_mean);
-   console.log('window length: ' + sensor4_window.length);
-   
-   if (sensor4 <= sensor4_mean)
-      sensorX = (sensor4) / (sensor4_mean) * (canvas.width/2);	
-   else
-      sensorX = ((sensor4 - sensor4_mean) / (max_sensor4 - sensor4_mean) * (canvas.width/2) + (canvas.width/2)) * 0.8
-	  
-   if (sensor6 <= sensor6_mean)
-      sensorY = (sensor6) / (sensor6_mean) * (canvas.height/2);	
-   else
-      sensorY = ((sensor6 - sensor6_mean) / (max_sensor6 - sensor6_mean) * (canvas.height/2) + (canvas.height/2)) * 0.8
+	velocityY = 0;
+	if (sensorNorth > AmbientLightCutoff)
+	  velocityY -= sensorNorth / 10000;
+	else if (sensorSouth > AmbientLightCutoff)
+      velocityY += sensorSouth / 10000;	
+    
+	velocityX = 0;
+    if (sensorEast > AmbientLightCutoff)
+		velocityX += sensorEast / 10000;
+	else if (sensorWest > AmbientLightCutoff)
+		velocityX -= sensorWest / 10000;
 
-   console.log('sensorX: ' + sensorX);
-   console.log('sensorY: ' + sensorY);
+   console.log('velocityX: ' + velocityX);
+   console.log('velocityY: ' + velocityY);
 
-   
-   
   // sensorX = (sensor4 - min_sensor4) / (max_sensor4 - min_sensor4 + 0.00001) * canvas.width;
   // sensorY = (sensor6 - min_sensor6) / (max_sensor6 - min_sensor6 + 0.00001) * canvas.height; 
+  
+  // Randomly choose a new colour source
+  var randBrushColour = Math.floor(Math.random() * 9) + 1 ;
+  updateSource(randBrushColour);
+  console.log('colour source: ' + randBrushColour);
+  
+  // one in two chance of changing brush stroke
+/*   if (Math.random() < 0.1) {
+	var randBrushStroke;
+	
+	if (Math.random() < 0.5)
+		randBrushStroke = 4;
+	else
+		randBrushStroke = 0;
+	
+	choosePreset(randBrushStroke)
+	releaseLines();
+    addLines();
+  } */
+	
+  //releaseLines();
+  //addLines();
+  
+  
 }
 
 function draw() {
@@ -187,6 +186,12 @@ function updateSource(index) {
     });
 }
 
+function changeBrush()
+{
+
+
+}
+
 function addLines()
 {
    for (var i = 0; i < ui.numberOfLines.value(); i++) {
@@ -205,8 +210,8 @@ function releaseLines()
 
 function mousePressed() 
 {
-	releaseLines()
-	addLines()
+	releaseLines();
+	addLines();
 }
 
 function mouseReleased() 

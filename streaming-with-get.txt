@@ -1,0 +1,14 @@
+var xhr = new XMLHttpRequest();
+xhr.open('GET', 'http://api.thethings.io/v2/things/Ih4acoVcAB_Vwvk-Rudjys4Hz-Q5eO1nKWlFN-_Za5w');
+xhr.seenBytes = 0;
+
+xhr.onreadystatechange = function() { 1
+  if(xhr.readyState > 2) {
+    var newData = xhr.responseText.substr(xhr.seenBytes); 2
+    console.log(newData)
+
+    xhr.seenBytes = xhr.responseText.length; 3
+  }
+};
+
+xhr.send();
