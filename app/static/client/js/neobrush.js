@@ -92,9 +92,7 @@ function setup() {
 
     ui.preset = getElement('save-preset');
 	
-	console.log('subscribing to the local data stream...');
-	var evtSrc = new EventSource("/v1/simulator/stream");
-    evtSrc.onmessage = new_data_from_sensor;
+	listen_to_sensors();
 	
 	sensorX = canvas.width / 2;
 	sensorY = canvas.height / 2;
