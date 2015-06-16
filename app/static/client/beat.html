@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Audio beats</title>
+	<script src="js/timbre.js"></script>
+    <script src="js/MoogFF.js"></script>
+    <script src="js/subcollider.js"></script>
+    <script src="js/jquery-2.1.4.min.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/beat.js"></script>
+
+  </head>
+  <body>
+    <h1 id="message">Audio beats</h1>
+
+    <script>
+    var sensorAX = 1;
+    var sensorAY = 1;
+
+    window.onload = function () {
+
+
+    	console.log('subscribing to the local data stream...');
+        //var evtSrc = new EventSource("/v1/simulator/stream");
+        var evtSrc = new EventSource("/v1/simulator/stream");
+        evtSrc.onmessage = new_data_from_sensor;
+        
+        function new_data_from_sensor(e)
+        {
+           var NormalisationFactor = 3000.0;
+           var jsonData     = JSON.parse(e.data);
+           var sensorNorth  = jsonData.values[0].value.measurments.sensor5 / NormalisationFactor;
+           var sensorEast   = jsonData.values[0].value.measurments.sensor3 / NormalisationFactor;
+           var sensorWest   = jsonData.values[0].value.measurments.sensor4 / NormalisationFactor;
+           var sensorSouth  = jsonData.values[0].value.measurments.sensor6 / NormalisationFactor;
+        
+           sensorAX = sensorNorth + sensorEast;
+           sensorAY = sensorWest + sensorSouth;
+           
+           console.log('sensorAX :' + sensorAX + ' sensorAY: ' + sensorAY);
+        }
+		
+		load_audio_beat();
+	}
+    </script>
+  </body>
+</html>
+
