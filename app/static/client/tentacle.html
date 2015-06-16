@@ -6,6 +6,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>NeoBrush</title>
   <link rel="stylesheet" href="css/main.css">
+  
+  <style>
+  .top-buffer { margin-top:20px; }
+  </style>
 
   <!-- Audio -->
   <script src="js/timbre.js"></script>
@@ -34,21 +38,23 @@
   </head>
 <body>
   <div class="container-fluid">
-	<div class="row" id="neobrush">
-	</div>
+	<div class="row" id="neobrush"> </div>
     <div class="row">
-      <div class="col-sm-1 col-sm-offset-1" >
-		<h5> logo1 </h5>
+      <div class="col-lg-1" >
+		<img src="img/tentacle_logo.png" alt="Musical Tentacle" height="100">
       </div>
-      <div class="col-sm-1">
-		<h5> logo2 </h5>
+      <div class="col-lg-1">
+		<img src="img/citclops_logo.jpg" alt="Citclops" height="100">
       </div>
-      <div class="col-sm-1">
-		<h5> logo3 </h5>
+      <div class="col-lg-1 col-lg-offset-8">
+        <button id="save" class="btn btn-lg btn-block btn-primary">Save</button>
       </div>	  
+      <div class="col-lg-1">
+	    <button id="clear" class="btn btn-lg btn-block btn-warning">Clear</button>
+	  </div>
     </div>
    </div>
-	
+   
    <div class="container hidden">
     <div class="row">
       <div class="col-sm-2">
@@ -100,11 +106,10 @@
           Verticies Jitter:<br>
           <input type="range" id="vertices-jitter" min="0" max="10" value="1" step="1">
         </p>
-        <button id="save" class="btn btn-sm btn-primary">Save</button>
-        <button id="clear" class="btn btn-sm btn-warning">Clear</button>
       </div>
     </div>
   </div>
+  
 </body>
 
 
