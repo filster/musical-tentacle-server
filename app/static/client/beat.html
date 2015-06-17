@@ -11,6 +11,8 @@
     <script src="js/beat.js"></script>
 	<script src="js/socket.io-1.3.5.js"></script>
 	<script src="js/listen_sensors.js"></script>
+	<script src="js/query_string.js"></script>
+
 	
   </head>
   <body>
@@ -22,7 +24,12 @@
     var sensorAY = 0.5;
 	var AmbientLightCutoff = 100;
 	
-	var LISTEN_THINGSIO = true;
+	var LISTEN_THINGSIO = false;
+	
+	// Overide if query has listen=TheThingsIO
+	if (QueryString.listen == "TheThingsIO")
+		LISTEN_THINGSIO = true;
+
 
     window.onload = function () {
 		listen_to_sensors(); 

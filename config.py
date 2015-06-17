@@ -14,8 +14,8 @@ CSRF_ENABLED = True
 SECRET_KEY = 'you-will-never-guess'
 
 # Simulator Setting
-MODE = 'offline'
-SERIAL_PORT = 'COM6'
+MODE = 'online'
+SERIAL_PORT = 'COM7'
 
 KDUINO_OFFLINE_FILE = "./app/playback/kduino.out"
 SIMULATION_DELAY = 1.0

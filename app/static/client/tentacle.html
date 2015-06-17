@@ -33,9 +33,21 @@
   <script src="js/listen_sensors.js"></script>
 
   <!-- Main controller -->
+  <script src="js/query_string.js"></script>
   <script>
+  
     var LOAD_AUDIO = false;
-	var LISTEN_THINGSIO = true;
+	var LISTEN_THINGSIO = false;
+	
+	// Overide if query has listen=TheThingsIO
+	if (QueryString.listen == "TheThingsIO")
+		LISTEN_THINGSIO = true;
+		
+	// Overide if query has audio=true	
+	if (QueryString.audio == "true")
+		LOAD_AUDIO = true;
+		
+	
   </script>
   <script src="js/neobrush.js"></script>
   <script>

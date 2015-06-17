@@ -150,7 +150,7 @@ function new_data_from_sensor(e)
   
   // Randomly choose a new colour source
   var randBrushColour = Math.floor(Math.random() * 9) + 1 ;
-  //updateSource(randBrushColour);
+  updateSource(randBrushColour);
   console.log('colour source: ' + randBrushColour);
   
   // one in two chance of changing brush stroke

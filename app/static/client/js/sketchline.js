@@ -23,7 +23,7 @@ function SketchLine(_numberOfVertices, _easeFactor, _speedFactor, _colors) {
 }
 
 SketchLine.prototype.update = function() {
-    this.colorIndex = (this.colorIndex < this.colors.length) ? this.colorIndex + 1 : 0;
+    this.colorIndex = (this.colorIndex < colors.length) ? this.colorIndex + 1 : 0;
 	
 	sensorX += velocityX;
 	sensorY += velocityY;
@@ -68,14 +68,19 @@ SketchLine.prototype.update = function() {
 		offi = 0
 };
 
+
 SketchLine.prototype.render = function() {
-    art.beginShape();
-    for (var i = 0; i < this.numberOfVertices; i++) {
+	var c = colors[this.colorIndex];
+	if (typeof(c) != "undefined")
+	{
+	  art.beginShape();
+      for (var i = 0; i < this.numberOfVertices; i++) {
         art.noFill();
-        art.strokeWeight(1);
-        var c = colors[this.colorIndex]
+        art.strokeWeight(1);	
         art.stroke(c[0], c[1], c[2], 30);
         art.curveVertex(this.curveVertices[i].x, this.curveVertices[i].y);
-    }
-    art.endShape();
+      }
+      art.endShape();
+	}
 };
+
