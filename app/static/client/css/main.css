@@ -50,3 +50,37 @@ p {
 .preset {
   margin-bottom: 5px;
 }
+
+#neobrush {
+	padding: 5px 0px 0px 5px;
+}
+
+#panel {
+	position: absolute;
+    left: 5px;
+    bottom: 5px;
+}
+
+.col {
+	padding: 0px 5px;
+}
+
+.raw-padding5 {
+	padding: 0px 0px 5px 0px;
+}
+
+.images {
+	margin-right: 5px;
+}
+
+.img_div {
+	padding: 5px;
+	background-color:white;
+}
+
+.start {
+	position: absolute;
+    top: 50px;
+    left: 50px;
+	display: none;
+}

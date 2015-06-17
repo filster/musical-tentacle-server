@@ -38,25 +38,39 @@
 	var LISTEN_THINGSIO = true;
   </script>
   <script src="js/neobrush.js"></script>
+  <script>
+    $(document).ready(function(){
+		var wd = $(window).width()/2-173;
+		var ht = $(window).height()/2-200;
+		$('.start').offset({ top: ht, left: wd });
+		$('.start').fadeIn( 400 ).delay(2000).fadeOut( 2000, "linear" );
+		
+		setTimeout(function(){ mousePressed(); }, 2000);
+		
+	});
+  </script>
   
-  </head>
+</head>
 <body>
-  <div class="container-fluid">
-	<div class="row" id="neobrush"> </div>
-    <div class="row">
-      <div class="col-lg-1" >
-		<img src="img/tentacle_logo.png" alt="Musical Tentacle" height="100">
-      </div>
-      <div class="col-lg-1">
-		<img src="img/citclops_logo.jpg" alt="Citclops" height="100">
-      </div>
-      <div class="col-lg-1 col-lg-offset-8">
-        <button id="save" class="btn btn-lg btn-block btn-primary">Save</button>
-      </div>	  
-      <div class="col-lg-1">
-	    <button id="clear" class="btn btn-lg btn-block btn-warning">Clear</button>
-	  </div>
-    </div>
+	<img src="img/tentacle_logo2.png" alt="Musical Tentacle" height="400" class="start"/>
+	<div>
+		<div id="neobrush">
+		</div>
+		<div class="raw-padding5">
+		  <div class="col-lg-10 col">
+			<img src="img/tentacle_logo.png" alt="Musical Tentacle" height="95" class="pull-left images"/>
+			<img src="img/citclops_logo.jpg" alt="Citclops" height="95" class="pull-left images"/>
+			<div class="img_div pull-left images"><img src="img/csic_logo.png" alt="CSIC" height="85" class="pull-left images"/></div>
+			<img src="img/eurecat_logo.jpg" alt="Eurecat" height="95" class="pull-left images"/>
+			<img src="img/1000001_logo.png" alt="1000001labs" height="95" class="pull-left images"/>
+		  </div>
+		  <div class="col-lg-1 col">
+			<button id="save" class="btn btn-lg btn-block btn-primary">Save</button>
+		  </div>	  
+		  <div class="col-lg-1 col">
+			<button id="clear" class="btn btn-lg btn-block btn-warning">Clear</button>
+		  </div>
+		</div>
    </div>
    
    <div class="container hidden">
@@ -113,8 +127,5 @@
       </div>
     </div>
   </div>
-  
 </body>
-
-
 </html>
