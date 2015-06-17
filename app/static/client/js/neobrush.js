@@ -72,7 +72,7 @@ function choosePreset(id) {
 function setup() {
     background(0);
     updateSource(1);
-    canvas = createCanvas(windowWidth, windowHeight);
+    canvas = createCanvas(windowWidth-10, windowHeight-115);
     canvas.parent('neobrush');
 	
     art = createGraphics(canvas.width, canvas.height);
