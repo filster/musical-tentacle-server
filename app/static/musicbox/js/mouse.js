@@ -27,28 +27,6 @@
 
     var mouseX = 0;
     var mouseY = 0;
-	
-	var sensorX;
-	var sensorY;
-	
-	console.log('subscribing to the local data stream...');
-		var evtSrc = new EventSource("/v1/simulator/stream");
-		evtSrc.onmessage = new_data_from_sensor;
-	
-	function new_data_from_sensor(e)
-	{
-	   var NormalisationFactor = 8000.0;
-	   var jsonData     = JSON.parse(e.data);
-	   var sensorNorth  = jsonData.values[0].value.measurments.sensor5 / NormalisationFactor;
-	   var sensorEast   = jsonData.values[0].value.measurments.sensor3 / NormalisationFactor;
-	   var sensorWest   = jsonData.values[0].value.measurments.sensor4 / NormalisationFactor;
-	   var sensorSouth  = jsonData.values[0].value.measurments.sensor6 / NormalisationFactor;
-	
-	   sensorX = sensorNorth + sensorEast;
-	   sensorY = sensorWest + sensorSouth;
-	   
-	   console.log('sensorX :' + sensorX + ' sensorY: ' + sensorY)
-	}
 
     var onclick = function(e) {
         instance._.emit("click", e);
@@ -57,10 +35,8 @@
         instance._.emit("mousedown", e);
     };
     var onmousemove = function(e) {
-        //var x = (mouseX = (e.clientX / window.innerWidth));
-        //var y = (mouseY = (e.clientY / window.innerHeight));
-		var x = sensorX;
-		var y = sensorY;
+        var x = (mouseX = (e.clientX / window.innerWidth));
+        var y = (mouseY = (e.clientY / window.innerHeight));
 
         var cellX = instance.cells[3];
         var cellY = instance.cells[4];
@@ -69,7 +45,7 @@
             cellY[i] = y;
         }
 
-        //console.log("x: ",x, " y:", y);
+        console.log("x: ",x, " y:", y);
     };
     var onmouseup = function(e) {
         instance._.emit("mouseup", e);

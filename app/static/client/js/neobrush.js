@@ -126,8 +126,8 @@ function new_data_from_sensor(e)
    var sensorWest   = jsonData.values[0].value.measurments.sensor4 / NormalisationFactor;
    var sensorSouth  = jsonData.values[0].value.measurments.sensor6 / NormalisationFactor;
 
-   sensorAX = (sensorNorth + sensorEast) / 3000;
-   sensorAY = (sensorWest + sensorSouth) / 3000;
+   sensorAX = sensorX / canvas.width;
+   sensorAY = sensorY / canvas.height;
         
    
 	velocityY = 0;
@@ -150,7 +150,7 @@ function new_data_from_sensor(e)
   
   // Randomly choose a new colour source
   var randBrushColour = Math.floor(Math.random() * 9) + 1 ;
-  updateSource(randBrushColour);
+  //updateSource(randBrushColour);
   console.log('colour source: ' + randBrushColour);
   
   // one in two chance of changing brush stroke
@@ -168,9 +168,7 @@ function new_data_from_sensor(e)
   } */
 	
   //releaseLines();
-  //addLines();
-  
-  
+  //addLines();  
 }
 
 function draw() {
