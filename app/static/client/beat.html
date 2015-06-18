@@ -22,13 +22,18 @@
 	
     var sensorAX = 0.5;
     var sensorAY = 0.5;
-	var AmbientLightCutoff = 100;
+	var AmbientLightCutoff = 5;
 	
 	var LISTEN_THINGSIO = false;
 	
 	// Overide if query has listen=TheThingsIO
 	if (QueryString.listen == "TheThingsIO")
 		LISTEN_THINGSIO = true;
+		
+	// Overide if query has listen=TheThingsIO
+	if (QueryString.listen == "local")
+		LISTEN_THINGSIO = false;
+		
 
 
     window.onload = function () {
@@ -39,28 +44,28 @@
 	
         function new_data_from_sensor(e)
         {
-           var NormalisationFactor = 1.0;
+           var NormalisationFactor = 1000;
            var jsonData     = JSON.parse(e.data);
-           var sensorNorth  = jsonData.values[0].value.measurments.sensor5 / NormalisationFactor;
-           var sensorEast   = jsonData.values[0].value.measurments.sensor3 / NormalisationFactor;
-           var sensorWest   = jsonData.values[0].value.measurments.sensor4 / NormalisationFactor;
-           var sensorSouth  = jsonData.values[0].value.measurments.sensor6 / NormalisationFactor;
+           var sensorNorth  = jsonData.values[0].value.measurments.sensor5;
+           var sensorEast   = jsonData.values[0].value.measurments.sensor3;
+           var sensorWest   = jsonData.values[0].value.measurments.sensor4;
+           var sensorSouth  = jsonData.values[0].value.measurments.sensor6;
         	
 			if (sensorNorth > AmbientLightCutoff) {
-				var speed = sensorNorth / 10000;
+				var speed = sensorNorth / NormalisationFactor;
 				sensorAY += speed; // velocityY += sensorNorth / 10000;
 			}
 			if (sensorSouth > AmbientLightCutoff) { 
-				var speed = sensorSouth / 10000;
+				var speed = sensorSouth / NormalisationFactor;
 				sensorAY -= speed; //velocityY += sensorSouth / 10000;	
 			}
 			if (sensorEast > AmbientLightCutoff) {
-				var speed = sensorEast / 10000;
+				var speed = sensorEast / NormalisationFactor;
 				sensorAX += speed; //velocityX += sensorEast / 10000;
 			}
 			if (sensorWest > AmbientLightCutoff)
 			{
-				var speed = sensorWest / 10000;
+				var speed = sensorWest / NormalisationFactor;
 				sensorAX -= speed; //velocityX -= sensorWest / 10000;
 			}
 		    // Make sure it is contained within bounds

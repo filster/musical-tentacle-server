@@ -96,8 +96,8 @@ function setup() {
 	
 	sensorX = canvas.width / 2;
 	sensorY = canvas.height / 2;
-	NormalisationFactor = 1.0;
-	AmbientLightCutoff = 100;
+	NormalisationFactor = 1000.0;
+	AmbientLightCutoff = 5;
 	velocityX = 0;
 	velocityY = 0;
 	speed = 100.0 / 6000
@@ -121,10 +121,10 @@ var AmbientLightCutoff;
 function new_data_from_sensor(e)
 {
    var jsonData     = JSON.parse(e.data);
-   var sensorNorth  = jsonData.values[0].value.measurments.sensor5 / NormalisationFactor;
-   var sensorEast   = jsonData.values[0].value.measurments.sensor3 / NormalisationFactor;
-   var sensorWest   = jsonData.values[0].value.measurments.sensor4 / NormalisationFactor;
-   var sensorSouth  = jsonData.values[0].value.measurments.sensor6 / NormalisationFactor;
+   var sensorNorth  = jsonData.values[0].value.measurments.sensor5;
+   var sensorEast   = jsonData.values[0].value.measurments.sensor3;
+   var sensorWest   = jsonData.values[0].value.measurments.sensor4;
+   var sensorSouth  = jsonData.values[0].value.measurments.sensor6;
 
    sensorAX = sensorX / canvas.width;
    sensorAY = sensorY / canvas.height;
@@ -132,15 +132,15 @@ function new_data_from_sensor(e)
    
 	velocityY = 0;
 	if (sensorNorth > AmbientLightCutoff)
-	  velocityY -= sensorNorth / 10000;
-	else if (sensorSouth > AmbientLightCutoff)
-      velocityY += sensorSouth / 10000;	
+	  velocityY -= sensorNorth / NormalisationFactor;
+	if (sensorSouth > AmbientLightCutoff)
+      velocityY += sensorSouth / NormalisationFactor;	
     
 	velocityX = 0;
     if (sensorEast > AmbientLightCutoff)
-		velocityX += sensorEast / 10000;
-	else if (sensorWest > AmbientLightCutoff)
-		velocityX -= sensorWest / 10000;
+		velocityX += sensorEast / NormalisationFactor;
+	if (sensorWest > AmbientLightCutoff)
+		velocityX -= sensorWest / NormalisationFactor;
 
    console.log('velocityX: ' + velocityX);
    console.log('velocityY: ' + velocityY);
