@@ -22,7 +22,7 @@ SIMULATION_DELAY = 1.0
 
 # TheThingsIO Config
 #KDUINO_TOKEN = "UYicPhFYv_Z_mxbdOm-BCHS_9dOVxcB3CQcX-V-_mGE"
-#KDUINO_TOKEN = "QowRU44x2aDpU1xeEiXy40B99gYJnL7IXmEirpQ5M90"
+KDUINO_TOKEN = "QowRU44x2aDpU1xeEiXy40B99gYJnL7IXmEirpQ5M90"
+#KDUINO_TOKEN = "Ih4acoVcAB_Vwvk-Rudjys4Hz-Q5eO1nKWlFN-_Za5w"
 
 THINGS_URL = "https://api.thethings.io/v2/things"
-KDUINO_TOKEN = "Ih4acoVcAB_Vwvk-Rudjys4Hz-Q5eO1nKWlFN-_Za5w"
