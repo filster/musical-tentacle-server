@@ -25,13 +25,13 @@ function load_audio_beat()
 
 			var P2 = sc.series(16);
 
-			var drum = T("lowshelf", {freq:50, gain:2, mul:0.6}, BD, SD, HH1, HH2, CYM).play();
+			var drum = T("lowshelf", {freq:50, gain:2, mul:0.4}, BD, SD, HH1, HH2, CYM).play();
 			//var drum = T("lowshelf", {freq:50, gain:12, mul:0.2}, BD).play();
 			//var drum2 = T("lowshelf", {freq:50, gain:12, mul:0.2}, SD).play();
 			var lead = T("saw", {freq:T("param")});
-			var vcf  = T("MoogFF", {freq:2400, gain:6, mul:0.1}, lead);
+			var vcf  = T("MoogFF", {freq:2400, gain:8, mul:0.5}, lead);
 			var env  = T("perc", {r:100});
-			var arp  = T("OscGen", {wave:"sin(15)", env:env, mul:0.8});
+			var arp  = T("OscGen", {wave:"sin(15)", env:env, mul:1.0});
 
 
 			T("delay", {time:"BPM128 L4", fb:0.65, mix:0.35}, 
